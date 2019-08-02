@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node pkg="phoxi_camera_info_pub" type="info_pub" name="info_pub" output="screen">
+      <remap from="/image0" to="/photoneo_center/texture" />
+        <remap from="/camera_info" to="/photoneo_center/camera_info" />
+        <remap from="/camera_name" to="/photoneo_center" />
+    </node>
+
+</launch>
