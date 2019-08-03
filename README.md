@@ -1,4 +1,5 @@
 # phoxi_ros_pkg
+PhoXi related packages.
 
 ## CI
 See [here](https://github.com/Nishida-Lab/denso_docs/tree/master/ci) for detail decumentation.

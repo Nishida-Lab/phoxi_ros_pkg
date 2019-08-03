@@ -1,18 +1,14 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>phoxi_img_converter</name>
+  <name>phoxi_camera_info_pub</name>
   <version>0.0.0</version>
-  <description>The image_convert package</description>
+  <description>The camera_info_pub package</description>
 
   <maintainer email="nishidalab@todo.todo">nishidalab</maintainer>
 
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-
-  <depend>image_transport</depend>
-  <depend>cv_bridge</depend>
-  <depend>message_generation</depend>
 
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>

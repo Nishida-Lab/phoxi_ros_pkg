@@ -5,15 +5,16 @@
   <description>The phoxi_ros_pkg package</description>
 
   <maintainer email="atsuki.yokota@gmail.com">Atsuki Yokota</maintainer>
-  <license>TODO</license>
-
+  <license>BSD</license>
+  <url type="repository">http://github.com/Nishida-Lab/denso_apps</url>
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>rospy</depend>
-  <depend>tf</depend>
-  <depend>tf2_ros</depend>
-  <depend>geometry_msgs</depend>
+  <exec_depend>phoxi_bringup</exec_depend>
+  <exec_depend>phoxi_camera_info_pub</exec_depend>
+  <exec_depend>phoxi_img_converter</exec_depend>
+  <exec_depend>sensor_frame_broadcaster</exec_depend>
 
-  <build_depend>cmake_modules</build_depend>
-
+  <export>
+    <metapackage />
+  </export>
 </package>
