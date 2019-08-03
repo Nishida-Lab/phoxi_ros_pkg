@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find phoxi_camera_info_pub)/launch/camera_info.launch"/>
+  <include file="$(find phoxi_img_converter)/launch/converted_image.launch"/>
+</launch>
