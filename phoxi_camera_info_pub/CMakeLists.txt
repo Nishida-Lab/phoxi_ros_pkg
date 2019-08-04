@@ -42,17 +42,17 @@ target_link_libraries(info_pub
 ###########
 
 set(EXEC_FILES
-  info_pub)
-
-set(DIRECTORIES
-  launch)
-
+  info_pub
+  )
 # Install executables
 foreach(nodes ${EXEC_FILES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 endforeach()
 
+set(DIRECTORIES
+  ./launch/
+  )
 # Install all files
 foreach(dirs ${DIRECTORIES})
   install(DIRECTORY ${dirs}/
@@ -63,7 +63,15 @@ endforeach()
 ## Testing ##
 #############
 
-if(CATKIN_ENABLE_TESTING)
+if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
-  roslaunch_add_file_check(launch)
+
+  set(DIRECTORIES
+    ./launch/
+    )
+
+  foreach(dirs ${DIRECTORIES})
+    roslaunch_add_file_check(${dirs})
+  endforeach()
 endif()
+
