@@ -10,4 +10,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <exec_depend>phoxi_img_converter</exec_depend>
+  <exec_depend>phoxi_camera_info_pub</exec_depend>
+
 </package>
