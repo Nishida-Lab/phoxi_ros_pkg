@@ -29,7 +29,9 @@ void ConvertPub::publish(void)
     converted_img_ptr_ = cv_bridge::CvImage(std_msgs::Header(), "bgr8", rescaled_img_ptr_->image).toImageMsg();
 
     // publish
-    std::cout << "$$$$$$$$$$$$pub : " << converted_img_ptr_->header << std::endl;
+    converted_img_ptr_->header.seq      = header_.seq;
+    converted_img_ptr_->header.stamp    = header_.stamp;
+    converted_img_ptr_->header.frame_id = header_.frame_id;
     img_pub_.publish(*converted_img_ptr_);
   }
 }
@@ -40,9 +42,9 @@ void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr &img_msg)
   {
     // copy an unscaled image as 32FC1 format
     original_img_ptr_ = cv_bridge::toCvCopy(img_msg, sensor_msgs::image_encodings::TYPE_32FC1);
-    std::cout << "$$$$$$$$$$$$$img_msg : " << img_msg->header << std::endl;
-    converted_img_ptr_->header.frame_id = img_msg->header.frame_id;
-    converted_img_ptr_->header.stamp = img_msg->header.stamp;
+    header_.seq      = img_msg->header.seq;
+    header_.stamp    = img_msg->header.stamp;
+    header_.frame_id = img_msg->header.frame_id;
     flag_ = true;
   } 
   catch (cv_bridge::Exception &e) 
@@ -60,7 +62,8 @@ void ConvertPub::scaling(cv_bridge::CvImagePtr original_img, cv_bridge::CvImageP
   original_img->image.convertTo(scaled_cv_img, CV_32FC1, 1.0 / max_val, 0);
 
   // copy
-  rescaled_img->header = original_img->header;
+  rescaled_img->header.frame_id = original_img->header.frame_id;
+  rescaled_img->header.stamp = original_img->header.stamp;
   rescaled_img->image = scaled_cv_img;
 }
 

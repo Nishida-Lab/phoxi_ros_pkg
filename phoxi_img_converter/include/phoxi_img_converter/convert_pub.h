@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
+#include <std_msgs/Header.h>
 
 namespace convert_pub {
 class ConvertPub {
@@ -28,6 +29,7 @@ private:
   image_transport::Subscriber img_sub_;
 
   bool flag_;
+  std_msgs::Header header_;
   cv_bridge::CvImagePtr original_img_ptr_;
   cv_bridge::CvImagePtr rescaled_img_ptr_;
   sensor_msgs::ImagePtr converted_img_ptr_;
