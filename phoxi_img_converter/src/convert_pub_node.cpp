@@ -2,7 +2,7 @@
 
 using convert_pub::ConvertPub;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "convert_pub");
   ros::NodeHandle nh;

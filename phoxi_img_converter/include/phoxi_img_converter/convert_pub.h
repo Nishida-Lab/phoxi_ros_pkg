@@ -11,14 +11,16 @@
 #include <sensor_msgs/image_encodings.h>
 #include <std_msgs/Header.h>
 
-namespace convert_pub {
-class ConvertPub {
+namespace convert_pub
+{
+class ConvertPub
+{
 public:
-  ConvertPub(ros::NodeHandle &nh);
+  ConvertPub(ros::NodeHandle& nh);
   void publish(void);
 
 private:
-  void updateImg(const sensor_msgs::ImageConstPtr &img_msg);
+  void updateImg(const sensor_msgs::ImageConstPtr& img_msg);
   void scaling(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img);
   void filtering(void);
 
@@ -34,6 +36,6 @@ private:
   cv_bridge::CvImagePtr rescaled_img_ptr_;
   sensor_msgs::ImagePtr converted_img_ptr_;
 };
-} // namespace convert_pub
+}  // namespace convert_pub
 
 #endif
