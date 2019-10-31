@@ -20,10 +20,10 @@ void ConvertPub::publish(void)
   if (flag_ == true)
   {
     // scale with the max value so that the range of pix val be from 0.0 to 1.0
-    scaling(original_img_ptr_, rescaled_img_ptr_);
+    scalePixVal(original_img_ptr_, rescaled_img_ptr_);
 
     // filtering
-    filtering();
+    filterImg();
 
     // // covert from gray to color
     cv::cvtColor(rescaled_img_ptr_->image, rescaled_img_ptr_->image, CV_GRAY2BGR);
@@ -55,7 +55,7 @@ void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
   }
 }
 
-void ConvertPub::scaling(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img)
+void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img)
 {
   cv::Mat scaled_cv_img(original_img->image);
   cv::MatConstIterator_<float> it_begin = original_img->image.begin<float>(), it_end = original_img->image.end<float>();
@@ -68,7 +68,7 @@ void ConvertPub::scaling(cv_bridge::CvImagePtr original_img, cv_bridge::CvImageP
   rescaled_img->image = scaled_cv_img;
 }
 
-void ConvertPub::filtering(void)
+void ConvertPub::filterImg(void)
 {
   // equalize hist
   rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);

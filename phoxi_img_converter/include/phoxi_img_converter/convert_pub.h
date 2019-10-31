@@ -21,8 +21,8 @@ public:
 
 private:
   void updateImg(const sensor_msgs::ImageConstPtr& img_msg);
-  void scaling(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img);
-  void filtering(void);
+  void scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img);
+  void filterImg(void);
 
 private:
   ros::NodeHandle nh_;
