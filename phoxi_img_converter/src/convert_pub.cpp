@@ -24,7 +24,8 @@ void ConvertPub::publish(void)
 {
   if (flag_ == true)
   {
-    // scale with the max value so that the range of pix val be from 0.0 to 1.0
+    // scale with the max value
+    // so that the range of pix val be from 0 to 255
     scalePixVal(original_img_ptr_, rescaled_img_ptr_);
 
     // filtering
@@ -69,6 +70,7 @@ void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvIm
   cv::MatConstIterator_<float> it_begin = original_img->image.begin<float>(), it_end = original_img->image.end<float>();
   float max_val = *std::max_element(it_begin, it_end);
   original_img->image.convertTo(scaled_cv_img, CV_32FC1, 1.0 / max_val, 0);
+  rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);
 
   // copy
   rescaled_img->header.frame_id = original_img->header.frame_id;
@@ -81,6 +83,5 @@ void ConvertPub::filterImg(void)
   ROS_INFO_STREAM_ONCE("filtering image ...");
 
   // equalize hist
-  rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);
   cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
 }
