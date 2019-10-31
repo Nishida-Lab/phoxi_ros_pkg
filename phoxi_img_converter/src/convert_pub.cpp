@@ -83,5 +83,11 @@ void ConvertPub::filterImg(void)
   ROS_INFO_STREAM_ONCE("filtering image ...");
 
   // equalize hist
-  cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
+  // cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
+
+
+  // show image
+  cv::namedWindow("result", cv::WINDOW_NORMAL);
+  cv::imshow("result", rescaled_img_ptr_->image);
+  cv::waitKey(0);
 }
