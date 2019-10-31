@@ -16,6 +16,8 @@ ConvertPub::ConvertPub(ros::NodeHandle& nh)
   img_pub_ = it_.advertise("/converted_image", 1);
   img_sub_ = it_.subscribe("/photoneo_center/texture", 1, &ConvertPub::updateImg, this);
   flag_ = false;
+
+  ROS_INFO_STREAM_ONCE("waiting image ...");
 }
 
 void ConvertPub::publish(void)
@@ -27,6 +29,7 @@ void ConvertPub::publish(void)
 
     // filtering
     filterImg();
+    ROS_INFO_STREAM_ONCE("filtering FINISHED");
 
     // // covert from gray to color
     cv::cvtColor(rescaled_img_ptr_->image, rescaled_img_ptr_->image, CV_GRAY2BGR);
@@ -37,6 +40,7 @@ void ConvertPub::publish(void)
     converted_img_ptr_->header.stamp = header_.stamp;
     converted_img_ptr_->header.frame_id = header_.frame_id;
     img_pub_.publish(*converted_img_ptr_);
+    ROS_INFO_STREAM_ONCE("publishing ...");
   }
 }
 
@@ -44,6 +48,7 @@ void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
 {
   try
   {
+    ROS_INFO_STREAM_ONCE("subscribed !");
     // copy an unscaled image as 32FC1 format
     original_img_ptr_ = cv_bridge::toCvCopy(img_msg, sensor_msgs::image_encodings::TYPE_32FC1);
     header_.seq = img_msg->header.seq;
@@ -73,6 +78,8 @@ void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvIm
 
 void ConvertPub::filterImg(void)
 {
+  ROS_INFO_STREAM_ONCE("filtering image ...");
+
   // equalize hist
   rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);
   cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
