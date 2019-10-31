@@ -1,65 +1,87 @@
-#include <ros/ros.h>
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
-#include <image_transport/image_transport.h>
-#include <opencv2/opencv.hpp>
+#include <phoxi_img_converter/convert_pub.h>
 #include <opencv2/highgui.hpp>
-#include <cv_bridge/cv_bridge.h>
+#include <opencv2/opencv.hpp>
 #include <iostream>
 
-int main(int argc, char** argv)
+using convert_pub::ConvertPub;
+
+// Class methods definitions
+ConvertPub::ConvertPub(ros::NodeHandle& nh)
+  : nh_(nh)
+  , it_(nh)
+  , original_img_ptr_(new cv_bridge::CvImage)
+  , rescaled_img_ptr_(new cv_bridge::CvImage)
+  , converted_img_ptr_(new sensor_msgs::Image)
 {
-  ros::init(argc, argv, "convert_pub");
-  ros::NodeHandle nh;
-  image_transport::ImageTransport it(nh);
+  img_pub_ = it_.advertise("/converted_image", 1);
+  img_sub_ = it_.subscribe("/photoneo_center/texture", 1, &ConvertPub::updateImg, this);
+  flag_ = false;
 
-  image_transport::Publisher pub = it.advertise("/converted_image", 1);
-  image_transport::Subscriber image_sub {it.subscribe("/photoneo_center/texture", 1,
-                                                                                    std::function<void (const sensor_msgs::Image::ConstPtr&)>
-    {
-      [&](const auto& image)
-      {
-        cv_bridge::CvImagePtr cv_img_ptr;
+  ROS_INFO_STREAM_ONCE("waiting image ...");
+}
 
-        try {
-          // copy an unscaled image as 32FC1 format
-          cv_img_ptr = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::TYPE_32FC1);
-        }
-        catch (cv_bridge::Exception& e) {
-          ROS_ERROR("cv_bridge exception: %s", e.what());
-        }
+void ConvertPub::publish(void)
+{
+  if (flag_ == true)
+  {
+    // scale with the max value
+    // so that the range of pix val be from 0 to 255
+    scalePixVal(original_img_ptr_, rescaled_img_ptr_);
 
-        // original unscaled image
-        cv::Mat cv_image_ori(cv_img_ptr->image.rows, cv_img_ptr->image.cols, cv_img_ptr->image.type());
-        cv_image_ori = cv_img_ptr->image;
+    // filtering
+    filterImg();
+    ROS_INFO_STREAM_ONCE("filtering FINISHED");
 
-        // scaled image
-        cv::Mat cv_image_scaled(cv_image_ori);
+    // // covert from gray to color
+    cv::cvtColor(rescaled_img_ptr_->image, rescaled_img_ptr_->image, CV_GRAY2BGR);
+    converted_img_ptr_ = cv_bridge::CvImage(std_msgs::Header(), "bgr8", rescaled_img_ptr_->image).toImageMsg();
 
-        // scale with the max value so that the range of pix val be from 0.0 to 1.0
-        cv::MatConstIterator_<float> it = cv_image_ori.begin<float>(), it_end = cv_image_ori.end<float>();
-        float max_val = *std::max_element(it, it_end);
-        cv_image_ori.convertTo(cv_image_scaled, CV_32FC1, 1.0/max_val, 0);
+    // publish
+    converted_img_ptr_->header.seq = header_.seq;
+    converted_img_ptr_->header.stamp = header_.stamp;
+    converted_img_ptr_->header.frame_id = header_.frame_id;
+    img_pub_.publish(*converted_img_ptr_);
+    ROS_INFO_STREAM_ONCE("publishing ...");
+  }
+}
 
-        // equalize hist
-        cv::Mat cv_image_gray(cv_image_scaled.rows, cv_image_scaled.cols, CV_8UC1);
-        cv_image_scaled.convertTo(cv_image_gray, CV_8UC1, 255.0/1.0, 0);
-        cv::Mat cv_image_hist_equ(cv_image_gray);
-        cv::equalizeHist(cv_image_gray, cv_image_hist_equ);
+void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
+{
+  try
+  {
+    ROS_INFO_STREAM_ONCE("subscribed !");
+    // copy an unscaled image as 32FC1 format
+    original_img_ptr_ = cv_bridge::toCvCopy(img_msg, sensor_msgs::image_encodings::TYPE_32FC1);
+    header_.seq = img_msg->header.seq;
+    header_.stamp = img_msg->header.stamp;
+    header_.frame_id = img_msg->header.frame_id;
+    flag_ = true;
+  }
+  catch (cv_bridge::Exception& e)
+  {
+    ROS_ERROR("cv_bridge exception: %s", e.what());
+    flag_ = false;
+  }
+}
 
-        // covert to color
-        cv::Mat cv_imageColor;
-        cv::cvtColor(cv_image_hist_equ, cv_imageColor, CV_GRAY2BGR);
+void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img)
+{
+  cv::Mat scaled_cv_img(original_img->image);
+  cv::MatConstIterator_<float> it_begin = original_img->image.begin<float>(), it_end = original_img->image.end<float>();
+  float max_val = *std::max_element(it_begin, it_end);
+  original_img->image.convertTo(scaled_cv_img, CV_32FC1, 1.0 / max_val, 0);
 
-        // publisher
-        sensor_msgs::ImagePtr rgb_image;
-        rgb_image  = cv_bridge::CvImage(std_msgs::Header(), "bgr8", cv_imageColor).toImageMsg();
-        rgb_image->header.frame_id = image->header.frame_id;
-        rgb_image->header.stamp = image->header.stamp;
-        pub.publish(rgb_image);
-      }
-    }
-                                                              )};
+  // copy
+  rescaled_img->header.frame_id = original_img->header.frame_id;
+  rescaled_img->header.stamp = original_img->header.stamp;
+  rescaled_img->image = scaled_cv_img;
+  rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);
+}
 
-  ros::spin();
+void ConvertPub::filterImg(void)
+{
+  ROS_INFO_STREAM_ONCE("filtering image ...");
+
+  // equalize hist
+  cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
 }

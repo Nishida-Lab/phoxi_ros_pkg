@@ -40,11 +40,14 @@ catkin_package(
 )
 
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(convert_pub src/convert_pub.cpp)
+add_executable(convert_pub 
+  src/convert_pub_node.cpp
+  src/convert_pub.cpp)
 target_link_libraries(convert_pub
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
