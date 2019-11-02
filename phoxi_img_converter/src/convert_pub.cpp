@@ -28,10 +28,6 @@ void ConvertPub::publish(void)
     // so that the range of pix val be from 0 to 255
     scalePixVal(original_img_ptr_, rescaled_img_ptr_);
 
-    // filtering
-    filterImg();
-    ROS_INFO_STREAM_ONCE("filtering FINISHED");
-
     // // covert from gray to color
     cv::cvtColor(rescaled_img_ptr_->image, rescaled_img_ptr_->image, CV_GRAY2BGR);
     converted_img_ptr_ = cv_bridge::CvImage(std_msgs::Header(), "bgr8", rescaled_img_ptr_->image).toImageMsg();
@@ -76,12 +72,4 @@ void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvIm
   rescaled_img->header.stamp = original_img->header.stamp;
   rescaled_img->image = scaled_cv_img;
   rescaled_img_ptr_->image.convertTo(rescaled_img_ptr_->image, CV_8UC1, 255.0 / 1.0, 0);
-}
-
-void ConvertPub::filterImg(void)
-{
-  ROS_INFO_STREAM_ONCE("filtering image ...");
-
-  // equalize hist
-  cv::equalizeHist(rescaled_img_ptr_->image, rescaled_img_ptr_->image);
 }
