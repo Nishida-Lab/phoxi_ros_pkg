@@ -19,7 +19,6 @@ public:
 private:
   void updateImg(const sensor_msgs::ImageConstPtr& img_msg);
   void scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img);
-  void filterImg(void);
 
 private:
   ros::NodeHandle nh_;
@@ -31,8 +30,6 @@ private:
   std_msgs::Header header_;
   cv_bridge::CvImagePtr original_img_ptr_;
   cv_bridge::CvImagePtr rescaled_img_ptr_;
-  cv::Mat gamma_fixed_img_;
-  cv::Mat contrast_fixed_img_;
   sensor_msgs::ImagePtr converted_img_ptr_;
 };
 }  // namespace convert_pub
