@@ -26,10 +26,10 @@ include_directories(
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(convert_pub 
-  src/convert_pub_node.cpp
-  src/convert_pub.cpp)
-target_link_libraries(convert_pub
+add_executable(${PROJECT_NAME}
+  src/${PROJECT_NAME}_node.cpp
+  src/${PROJECT_NAME}.cpp)
+target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
@@ -39,8 +39,8 @@ target_link_libraries(convert_pub
 ###########
 
 set(EXEC_FILES
-  convert_pub
-  )
+  ${PROJECT_NAME}
+)
 # Install executables
 foreach(nodes ${EXEC_FILES})
   install(TARGETS ${nodes}

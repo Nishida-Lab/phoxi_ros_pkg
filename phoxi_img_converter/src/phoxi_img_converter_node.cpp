@@ -1,13 +1,13 @@
-#include <phoxi_img_converter/convert_pub.h>
+#include <phoxi_img_converter/phoxi_img_converter.h>
 
-using convert_pub::ConvertPub;
+using phoxi_img_converter::PhoxiImgConverter;
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "convert_pub");
+  ros::init(argc, argv, "phoxi_img_converter");
   ros::NodeHandle nh;
 
-  ConvertPub convertor(nh);
+  PhoxiImgConverter convertor(nh);
 
   ros::Rate loop_rate(10);
   while (ros::ok())
