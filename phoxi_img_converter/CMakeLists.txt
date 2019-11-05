@@ -26,10 +26,10 @@ include_directories(
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(${PROJECT_NAME}
+add_executable(${PROJECT_NAME}_node
   src/${PROJECT_NAME}_node.cpp
   src/${PROJECT_NAME}.cpp)
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
@@ -39,7 +39,7 @@ target_link_libraries(${PROJECT_NAME}
 ###########
 
 set(EXEC_FILES
-  ${PROJECT_NAME}
+  ${PROJECT_NAME}_node
 )
 # Install executables
 foreach(nodes ${EXEC_FILES})
