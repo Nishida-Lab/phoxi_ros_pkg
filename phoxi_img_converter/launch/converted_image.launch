@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <node pkg="phoxi_img_converter" type="convert_pub" name="convert_pub" output="screen">
+  <node pkg="phoxi_img_converter" type="phoxi_img_converter" name="phoxi_img_converter" output="screen">
     <remap from="/image0" to="/photoneo_center/texture" />
     <remap from="/converted_image" to="/photoneo_center/rgb_texture" />
    </node>

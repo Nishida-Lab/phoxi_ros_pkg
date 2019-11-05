@@ -1,12 +1,12 @@
-#include <phoxi_img_converter/convert_pub.h>
+#include <phoxi_img_converter/phoxi_img_converter.h>
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-using convert_pub::ConvertPub;
+using phoxi_img_converter::PhoxiImgConverter;
 
 // Class methods definitions
-ConvertPub::ConvertPub(ros::NodeHandle& nh)
+PhoxiImgConverter::PhoxiImgConverter(ros::NodeHandle& nh)
   : nh_(nh)
   , it_(nh)
   , original_img_ptr_(new cv_bridge::CvImage)
@@ -14,13 +14,13 @@ ConvertPub::ConvertPub(ros::NodeHandle& nh)
   , converted_img_ptr_(new sensor_msgs::Image)
 {
   img_pub_ = it_.advertise("/converted_image", 1);
-  img_sub_ = it_.subscribe("/photoneo_center/texture", 1, &ConvertPub::updateImg, this);
+  img_sub_ = it_.subscribe("/photoneo_center/texture", 1, &PhoxiImgConverter::updateImg, this);
   flag_ = false;
 
   ROS_INFO_STREAM_ONCE("waiting image ...");
 }
 
-void ConvertPub::publish(void)
+void PhoxiImgConverter::publish(void)
 {
   if (flag_ == true)
   {
@@ -41,7 +41,7 @@ void ConvertPub::publish(void)
   }
 }
 
-void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
+void PhoxiImgConverter::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
 {
   try
   {
@@ -60,7 +60,7 @@ void ConvertPub::updateImg(const sensor_msgs::ImageConstPtr& img_msg)
   }
 }
 
-void ConvertPub::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img)
+void PhoxiImgConverter::scalePixVal(cv_bridge::CvImagePtr original_img, cv_bridge::CvImagePtr rescaled_img)
 {
   cv::Mat scaled_cv_img(original_img->image);
   cv::MatConstIterator_<float> it_begin = original_img->image.begin<float>(), it_end = original_img->image.end<float>();

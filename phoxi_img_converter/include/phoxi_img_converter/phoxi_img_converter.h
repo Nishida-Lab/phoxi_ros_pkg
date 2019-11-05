@@ -1,5 +1,5 @@
-#ifndef CONVERT_PUB_H
-#define CONVERT_PUB_H
+#ifndef PHOXI_IMG_CONVERTER_H
+#define PHOXI_IMG_CONVERTER_H
 
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
@@ -8,12 +8,12 @@
 #include <sensor_msgs/image_encodings.h>
 #include <std_msgs/Header.h>
 
-namespace convert_pub
+namespace phoxi_img_converter
 {
-class ConvertPub
+class PhoxiImgConverter
 {
 public:
-  ConvertPub(ros::NodeHandle& nh);
+  PhoxiImgConverter(ros::NodeHandle& nh);
   void publish(void);
 
 private:
@@ -32,6 +32,6 @@ private:
   cv_bridge::CvImagePtr rescaled_img_ptr_;
   sensor_msgs::ImagePtr converted_img_ptr_;
 };
-}  // namespace convert_pub
+}  // namespace phoxi_img_converter
 
-#endif  // CONVERT_PUB_H
+#endif  // PhoxiImgConvertermgConverter
