@@ -13,7 +13,6 @@ find_package(OpenCV REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
     cv_bridge
     image_transport
