@@ -1,4 +1,7 @@
 # phoxi_ros_pkg
+
+[![](https://github.com/Nishida-Lab/phoxi_ros_pkg/workflows/CI/badge.svg)](https://github.com/Nishida-Lab/phoxi_ros_pkg/actions)
+
 PhoXi related packages.
 
 ## phoxi_img_converter
