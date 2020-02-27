@@ -10,6 +10,15 @@ catkin_package()
 ## Install ##
 #############
 
+# Python scripts
+set(PYTHON_SCRIPTS
+  scripts/phoxi_get_frame.py
+)
+foreach(scripts ${PYTHON_SCRIPTS})
+  catkin_install_python(PROGRAMS ${scripts}
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+endforeach()
+
 set(DIRECTORIES
   ./launch/
   )

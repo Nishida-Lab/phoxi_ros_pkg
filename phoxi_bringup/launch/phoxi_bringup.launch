@@ -1,5 +1,18 @@
 <?xml version="1.0"?>
 <launch>
+
+  <arg name="sensor_name" default="photoneo_center" />
+  <arg name="phoxi_config_file_name" default="photoneo_center.yaml" />
+
+  <node pkg="phoxi_camera" type="phoxi_camera" name="$(arg sensor_name)" output="screen">
+      <param name="sensor_name" value="$(arg sensor_name)" />
+      <rosparam file="$(find phoxi_bringup)/config/$(arg phoxi_config_file_name)" command="load"/>
+  </node>
+
+  <node pkg="phoxi_bringup" type="phoxi_get_frame.py" name="phoxi_get_frame" output="screen">
+      <param name="sensor_name" value="$(arg sensor_name)" />
+  </node>
+
   <include file="$(find phoxi_camera_info_pub)/launch/camera_info.launch"/>
   <include file="$(find phoxi_img_converter)/launch/converted_image.launch"/>
 </launch>
