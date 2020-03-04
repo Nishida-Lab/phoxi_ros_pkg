@@ -10,6 +10,7 @@ jobs:
           - {ROS_DISTRO: "kinetic",
             ROS_REPO: "main",
             CATKIN_LINT: "true",
+            ROSDEP_SKIP_KEYS: "phoxi_camera",
             OPT_VI: "-vi",
             CATKIN_LINT_ARGS: "--ignore unknown_package"}
 
