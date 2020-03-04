@@ -1,0 +1,4 @@
+- git:
+    local-name: denso_deps/phoxi_camera
+    uri: https://github.com/photoneo/phoxi_camera.git
+    version: devel

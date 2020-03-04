@@ -9,9 +9,10 @@ jobs:
         env:
           - {ROS_DISTRO: "kinetic",
             ROS_REPO: "main",
+            OPT_VI: "-vi",
             CATKIN_LINT: "true",
             ROSDEP_SKIP_KEYS: "phoxi_camera",
-            OPT_VI: "-vi",
+            UPSTREAM_WORKSPACE: ".depends.rosinstall",
             CATKIN_LINT_ARGS: "--ignore unknown_package"}
 
     runs-on: ubuntu-latest
