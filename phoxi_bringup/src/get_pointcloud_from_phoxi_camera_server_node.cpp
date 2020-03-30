@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 
   GetPointCloudFromPhoXiCameraServer get_pointcloud_from_phoxi_camera_server(nh);
 
-  ros::Rate rate(10);
+  ros::Rate rate(0.5);
 
   while (ros::ok())
   {
