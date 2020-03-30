@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="sensor_name" default="photoneo_center" />
+  <arg name="phoxi_config_file_name" default="photoneo_center.yaml" />
+  <arg name="cloud_name" default="/get_point_cloud" />
+  <arg name="timeout" default="100" />
+
+  <node pkg="phoxi_camera" type="phoxi_camera" name="$(arg sensor_name)" output="screen">
+    <param name="sensor_name" value="$(arg sensor_name)" />
+    <rosparam file="$(find phoxi_bringup)/config/$(arg phoxi_config_file_name)" command="load"/>
+  </node>
+
+  <node pkg="phoxi_bringup" type="phoxi_camera_pointcloud_pub_server" name="phoxi_camera_pointcloud_pub_server" output="screen">
+    <param name="sensor_name" value="$(arg sensor_name)" />
+  </node>
+
+  <node pkg="phoxi_bringup" type="get_pointcloud_from_phoxi_camera_server" name="get_pointcloud_from_phoxi_camera_server" output="screen">
+    <param name="sensor_name" value="$(arg sensor_name)" />
+    <param name="cloud_name" value="$(arg cloud_name)" />
+    <param name="timeout" value="$(arg timeout)" />
+  </node>
+
+  <include file="$(find phoxi_camera_info_pub)/launch/camera_info.launch"/>
+  <include file="$(find phoxi_img_converter)/launch/converted_image.launch"/>
+</launch>
