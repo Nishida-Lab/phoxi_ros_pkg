@@ -15,9 +15,11 @@ class GetPointCloudFromPhoXiCameraServer
 public:
   GetPointCloudFromPhoXiCameraServer(ros::NodeHandle& nh);
   void publishPointCloud();
+
 private:
   void receivePointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& cloud);
-  bool getPointCloud(phoxi_camera_srvs::GetPhoXiPointCloud::Request& req, phoxi_camera_srvs::GetPhoXiPointCloud::Response& res);
+  bool getPointCloud(phoxi_camera_srvs::GetPhoXiPointCloud::Request& req,
+                     phoxi_camera_srvs::GetPhoXiPointCloud::Response& res);
 
 private:
   ros::NodeHandle nh_;
@@ -33,6 +35,6 @@ private:
   bool is_ok_;
   int timeout_;
 };
-} // namespace get_pointcloud_from_phoxi_camera_server
+}  // namespace get_pointcloud_from_phoxi_camera_server
 
-#endif // GET_POINTCLOUD_FROM_PHOXI_CAMERA_SERVER_H
+#endif  // GET_POINTCLOUD_FROM_PHOXI_CAMERA_SERVER_H
