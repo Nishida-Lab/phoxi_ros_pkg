@@ -16,7 +16,7 @@ jobs:
             CATKIN_LINT_ARGS: "--ignore unknown_package",
             }
           - global:
-              BEFORE_SCRIPT: "./../../.pre_process.sh"
+              BEFORE_SCRIPT: "sh .pre_process.sh"
 
     runs-on: ubuntu-latest
     steps:
