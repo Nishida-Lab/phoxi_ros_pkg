@@ -7,14 +7,14 @@ jobs:
     strategy:
       matrix:
         env:
-          - {ROS_DISTRO: "kinetic",
+          - {
+            DOCKER_IMAGE: "atsukiyokota/kinetic-ros-core-xenial-phoxicontrol",
+            ROS_DISTRO: "kinetic",
             ROS_REPO: "main",
             OPT_VI: "-vi",
             CATKIN_LINT: "true",
             ROSDEP_SKIP_KEYS: "phoxi_camera",
             UPSTREAM_WORKSPACE: ".depends.rosinstall",
-            AFTER_SETUP_TARGET_WORKSPACE: "./.pre_process.sh",
-            AFTER_SETUP_UPSTREAM_WORKSPACE: "./.pre_process.sh",
             CATKIN_LINT_ARGS: "--ignore unknown_package",
             }
 
