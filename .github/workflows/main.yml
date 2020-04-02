@@ -14,6 +14,7 @@ jobs:
             ROSDEP_SKIP_KEYS: "phoxi_camera",
             UPSTREAM_WORKSPACE: ".depends.rosinstall",
             AFTER_SETUP_TARGET_WORKSPACE: "./.pre_process.sh",
+            AFTER_SETUP_UPSTREAM_WORKSPACE: "./.pre_process.sh",
             CATKIN_LINT_ARGS: "--ignore unknown_package",
             }
 
