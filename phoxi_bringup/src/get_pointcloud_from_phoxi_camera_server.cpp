@@ -38,8 +38,7 @@ bool GetPointCloudFromPhoXiCameraServer::getPointCloud(phoxi_camera_srvs::GetPho
     return res.success;
   }
 
-  ros::Rate rate(1);
-  rate.sleep();
+  ros::Duration(4.0).sleep();
 
   int count = 0;
   sensor_cloud_ = receive_cloud_;
@@ -53,10 +52,10 @@ bool GetPointCloudFromPhoXiCameraServer::getPointCloud(phoxi_camera_srvs::GetPho
       res.success = false;
       return res.success;
     }
-    rate.sleep();
+    ros::Duration(4.0).sleep();
   }
 
-  rate.sleep();
+  ros::Duration(4.0).sleep();
 
   if (!stop_publish_pointcloud_client_.call(publish_point_cloud))
   {
