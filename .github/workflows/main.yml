@@ -14,8 +14,8 @@ jobs:
             ROSDEP_SKIP_KEYS: "phoxi_camera",
             UPSTREAM_WORKSPACE: ".depends.rosinstall",
             CATKIN_LINT_ARGS: "--ignore unknown_package"}
-          global:
-            BEFORE_SCRIPT: './.pre_process.sh'
+          - global:
+              BEFORE_SCRIPT: './.pre_process.sh'
 
     runs-on: ubuntu-latest
     steps:
