@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 
   PhoXiCameraPointCloudPubServer phoxi_camera_pointcloud_pub_server(nh);
 
-  ros::Rate rate(10);
+  ros::Rate rate(0.5);
 
   while (ros::ok())
   {
