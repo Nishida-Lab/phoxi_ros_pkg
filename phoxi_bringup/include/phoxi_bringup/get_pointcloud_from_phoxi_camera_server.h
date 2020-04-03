@@ -34,6 +34,7 @@ private:
   std::string cloud_name_;
   bool is_ok_;
   int timeout_;
+  double interval_time_;
 };
 }  // namespace get_pointcloud_from_phoxi_camera_server
 

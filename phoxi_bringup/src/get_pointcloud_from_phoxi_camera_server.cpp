@@ -9,6 +9,7 @@ GetPointCloudFromPhoXiCameraServer::GetPointCloudFromPhoXiCameraServer(ros::Node
   ros::param::param<int>("~timeout", timeout_, 100);
   ros::param::param<std::string>("~sensor_name", sensor_name_, "photoneo_center");
   ros::param::param<std::string>("~cloud_name", cloud_name_, "/get_point_cloud");
+  ros::param::param<double>("~interval_time", interval_time_, 2.0);
   get_pointcloud_server_ =
       nh.advertiseService("/phoxi_bringup/get_pointcloud", &GetPointCloudFromPhoXiCameraServer::getPointCloud, this);
   start_publish_pointcloud_client_ =
@@ -30,6 +31,9 @@ bool GetPointCloudFromPhoXiCameraServer::getPointCloud(phoxi_camera_srvs::GetPho
                                                        phoxi_camera_srvs::GetPhoXiPointCloud::Response& res)
 {
   is_ok_ = false;
+  sensor_msgs::PointCloud2 empty_cloud;
+  receive_cloud_ = empty_cloud;
+
   phoxi_camera_srvs::PublishPointCloud publish_point_cloud;
   if (!start_publish_pointcloud_client_.call(publish_point_cloud))
   {
@@ -38,13 +42,11 @@ bool GetPointCloudFromPhoXiCameraServer::getPointCloud(phoxi_camera_srvs::GetPho
     return res.success;
   }
 
-  ros::Duration(4.0).sleep();
+  ros::Duration(interval_time_).sleep();
 
   int count = 0;
-  sensor_cloud_ = receive_cloud_;
-  while (sensor_cloud_.data.size() == 0)
+  while (receive_cloud_.data.size() == 0)
   {
-    sensor_cloud_ = receive_cloud_;
     count++;
     if (count > timeout_)
     {
@@ -52,10 +54,12 @@ bool GetPointCloudFromPhoXiCameraServer::getPointCloud(phoxi_camera_srvs::GetPho
       res.success = false;
       return res.success;
     }
-    ros::Duration(4.0).sleep();
+    ros::Duration(interval_time_).sleep();
   }
 
-  ros::Duration(4.0).sleep();
+  sensor_cloud_ = receive_cloud_;
+
+  ros::Duration(interval_time_).sleep();
 
   if (!stop_publish_pointcloud_client_.call(publish_point_cloud))
   {

@@ -4,6 +4,7 @@
   <arg name="phoxi_config_file_name" default="photoneo_center.yaml" />
   <arg name="cloud_name" default="/get_point_cloud" />
   <arg name="timeout" default="100" />
+  <arg name="interval_time" default="2.0" />
 
   <node pkg="phoxi_camera" type="phoxi_camera" name="$(arg sensor_name)" output="screen">
     <param name="sensor_name" value="$(arg sensor_name)" />
@@ -18,6 +19,7 @@
     <param name="sensor_name" value="$(arg sensor_name)" />
     <param name="cloud_name" value="$(arg cloud_name)" />
     <param name="timeout" value="$(arg timeout)" />
+    <param name="interval_name" value="$(arg interval_time)" />
   </node>
 
   <include file="$(find phoxi_camera_info_pub)/launch/camera_info.launch"/>
