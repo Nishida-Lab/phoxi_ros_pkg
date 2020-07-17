@@ -71,6 +71,7 @@ endforeach()
 
 set(DIRECTORIES
   ./launch/
+  ./config/
   )
 # other files
 foreach(dirs ${DIRECTORIES})
