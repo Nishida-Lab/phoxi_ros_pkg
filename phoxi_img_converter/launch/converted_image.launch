@@ -2,6 +2,6 @@
 <launch>
   <node pkg="phoxi_img_converter" type="phoxi_img_converter_node" name="phoxi_img_converter_node" output="screen">
     <remap from="/image0" to="/photoneo_center/texture" />
-    <remap from="/converted_image" to="/photoneo_center/rgb_texture" />
+    <remap from="/converted_image" to="/photoneo_center/converted_rgb_texture" />
    </node>
 </launch>
