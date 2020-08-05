@@ -1,4 +1,4 @@
-scanner_id: "v126_test" # keep "" if scanner id is number
+scanner_id: "2019-02-013-LC3" # keep "" if scanner id is number
 frame_id: "photoneo_center_optical_frame"
 latch_topics: true
 topic_queue_size: 1
